@@ -26,6 +26,8 @@ public class BirthdayGreeterShould {
     private EmployeeRepository employeeRepository;
     @Mock
     private Clock clock;
+    @Mock
+    private EmailSender emailSender;
 
     @InjectMocks
     private BirthdayGreeter birthdayGreeter;
@@ -36,7 +38,10 @@ public class BirthdayGreeterShould {
     @Test
     public void should_send_greeting_email_to_employee() {
         System.setOut(new PrintStream(consoleContent));
+
+        //Clock contains side effects
         given(clock.today()).willReturn(TODAY);
+
         Employee employee = anEmployee().build();
         given(employeeRepository.findEmployeesBornOn(MonthDay.of(CURRENT_MONTH, CURRENT_DAY_OF_MONTH))).willReturn(Collections.singletonList(employee));
 

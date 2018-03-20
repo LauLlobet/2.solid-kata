@@ -6,17 +6,19 @@ import java.time.MonthDay;
 public class BirthdayGreeter {
     private final EmployeeRepository employeeRepository;
     private final Clock clock;
+    private EmailSender sender;
 
-    public BirthdayGreeter(EmployeeRepository employeeRepository, Clock clock) {
+    public BirthdayGreeter(EmployeeRepository employeeRepository, Clock clock, EmailSender sender) {
         this.employeeRepository = employeeRepository;
         this.clock = clock;
+        this.sender = sender;
     }
 
     public void sendGreetings() {
         employeeRepository.findEmployeesBornOn(monthDayOfToday())
                 .stream()
                 .map(employee -> emailFor(employee))
-                .forEach(email -> new EmailSender().send(email));
+                .forEach(email -> sender.send(email));
     }
 
     private MonthDay monthDayOfToday() {
