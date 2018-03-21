@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.ByteArrayOutputStream;
@@ -22,15 +23,13 @@ public class BirthdayGreeterShould {
     private static final int CURRENT_DAY_OF_MONTH = 9;
     private static final LocalDate TODAY = LocalDate.of(2017, CURRENT_MONTH, CURRENT_DAY_OF_MONTH);
 
-    @Mock
-    private EmployeeRepository employeeRepository;
-    @Mock
-    private Clock clock;
-    @Mock
-    private EmailSender emailSender;
 
-    @InjectMocks
-    private BirthdayGreeter birthdayGreeter;
+
+    private EmployeeRepository employeeRepository = Mockito.mock(EmployeeRepository.class);;
+    private Clock clock = Mockito.mock(Clock.class);
+    private EmailSender emailSender = new EmailSender();
+
+    private BirthdayGreeter birthdayGreeter = new BirthdayGreeter(employeeRepository,clock,emailSender);
 
 
     private ByteArrayOutputStream consoleContent = new ByteArrayOutputStream();
@@ -38,10 +37,7 @@ public class BirthdayGreeterShould {
     @Test
     public void should_send_greeting_email_to_employee() {
         System.setOut(new PrintStream(consoleContent));
-
-        //Clock contains side effects
         given(clock.today()).willReturn(TODAY);
-
         Employee employee = anEmployee().build();
         given(employeeRepository.findEmployeesBornOn(MonthDay.of(CURRENT_MONTH, CURRENT_DAY_OF_MONTH))).willReturn(Collections.singletonList(employee));
 

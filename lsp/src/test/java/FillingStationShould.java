@@ -15,7 +15,7 @@ public class FillingStationShould {
     public void refuel_a_petrol_car(){
         PetrolCar car = new PetrolCar();
         fillingStation.refuel(car);
-        assertThat(car.fuelTankLevel())
+        assertThat(car.getAutonomy())
                 .isEqualTo(FULL);
     }
 
@@ -24,7 +24,7 @@ public class FillingStationShould {
     public void not_refuel_a_electric_car(){
         ElectricCar car = new ElectricCar();
         fillingStation.refuel(car);
-        assertThat(car.fuelTankLevel())
+        assertThat(car.getAutonomy())
                 .isEqualTo(EMPTY);
     }
 }

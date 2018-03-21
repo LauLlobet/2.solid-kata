@@ -19,7 +19,7 @@
       <module name="lsp" target="1.8" />
       <module name="ocp" target="1.8" />
       <module name="solid-kata" target="1.8" />
-      <module name="srp" target="9" />
+      <module name="srp" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>
