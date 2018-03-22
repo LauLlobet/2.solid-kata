@@ -1,5 +1,6 @@
 package com.codurance.dip;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -24,15 +25,22 @@ public class BirthdayGreeterShould {
     private static final LocalDate TODAY = LocalDate.of(2017, CURRENT_MONTH, CURRENT_DAY_OF_MONTH);
 
 
+    @Mock
+    private EmployeeRepository employeeRepository;
 
-    private EmployeeRepository employeeRepository = Mockito.mock(EmployeeRepository.class);;
-    private Clock clock = Mockito.mock(Clock.class);
+    @Mock
+    private Clock clock;
+
     private EmailSender emailSender = new EmailSender();
 
-    private BirthdayGreeter birthdayGreeter = new BirthdayGreeter(employeeRepository,clock,emailSender);
-
+    private BirthdayGreeter birthdayGreeter;
 
     private ByteArrayOutputStream consoleContent = new ByteArrayOutputStream();
+
+    @Before
+    public void setUp() {
+        birthdayGreeter = new BirthdayGreeter(employeeRepository, clock, emailSender);
+    }
 
     @Test
     public void should_send_greeting_email_to_employee() {
